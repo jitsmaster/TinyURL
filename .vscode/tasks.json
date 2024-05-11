@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "react-playground",
+			"problemMatcher": [],
+			"label": "npm: dev - react-playground",
+			"detail": "vite"
+		}
+	]
+}

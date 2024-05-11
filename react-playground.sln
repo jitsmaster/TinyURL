@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{0A0D7B33-689C-491B-AA10-C6375B91F28A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tinyurl", "server\tinyurl\tinyurl.csproj", "{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D74BCAF6-8875-4888-9A07-CEC5CBF4D730} = {0A0D7B33-689C-491B-AA10-C6375B91F28A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4BA3972-2216-4695-81C6-420704FC5D1B}
+	EndGlobalSection
+EndGlobal
