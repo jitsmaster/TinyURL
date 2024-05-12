@@ -1,0 +1,9 @@
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.csproj.AssemblyReference.cache
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.GeneratedMSBuildEditorConfig.editorconfig
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.AssemblyInfoInputs.cache
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.AssemblyInfo.cs
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.csproj.CoreCompileInputs.cache
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.MvcApplicationPartsAssemblyInfo.cs
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.MvcApplicationPartsAssemblyInfo.cache
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.RazorAssemblyInfo.cache
+/home/arnold/dev/react-playground/obj/Debug/net8.0/tinyurl.RazorAssemblyInfo.cs

@@ -1,17 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TinyURL.Controllers;
+namespace Jitsmaster.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class TinyURLController : ControllerBase
 {
-	private static readonly string[] Summaries = new[]
-	{
-		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-	};
-
 	private readonly ILogger<TinyURLController> _logger;
+	private readonly TinyURL _tinyURL = new TinyURL();
 
 	public TinyURLController(ILogger<TinyURLController> logger)
 	{

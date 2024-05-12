@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{0A0D7B33-689C-491B-AA10-C6375B91F28A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tinyurl", "server\tinyurl\tinyurl.csproj", "{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tinyurl", "tinyurl.csproj", "{D74BCAF6-8875-4888-9A07-CEC5CBF4D730}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
