@@ -17,10 +17,10 @@ function AddTinyUrlForm() {
 		<div className="form">
 			<div className="form-container">
 				<div className="input-group">
-					<label>URL:</label>
+					<label>URL *:</label>
 					<input
 						required
-						type="text"
+						type="url"
 						value={url}
 						onChange={(e) => setName(e.target.value)
 						}

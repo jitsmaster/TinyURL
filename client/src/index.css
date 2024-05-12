@@ -46,13 +46,18 @@ body {
 	gap: 10px;
 }
 
-.App input[type="text"] {
+.App input[type="text"],
+.App input[type="url"] {
 	padding: 12px;
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
 	border: 1px solid lightgray;
 	border-radius: 8px;
+}
+
+.App hr {
+	width: 100%
 }
 
 .App .form {
@@ -76,7 +81,7 @@ body {
 	gap: 8px;
 }
 
-.App .input-group input[type="text"] {
+.App .input-group input {
 	flex: 1 1 auto;
 }
 

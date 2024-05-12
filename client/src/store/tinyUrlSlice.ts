@@ -8,7 +8,7 @@ export const loadThunk = createAsyncThunk(
 	'load',
 	async (payload: { startIndex: number, pageSize: number, filter: string }, _) => {
 		try {
-			const resp = await fetch(`/TinyURL/list?startIndex=${payload.startIndex}&pageSize=${payload.pageSize}&filter=${payload.filter}`,
+			const resp = await fetch(`/TinyURL/list?startIndex=${payload.startIndex}&pageSize=${payload.pageSize}&filter=${encodeURIComponent(payload.filter)}`,
 				{
 					headers: {
 						'Accept': 'application/json',
@@ -28,14 +28,20 @@ export const addThunk = createAsyncThunk(
 	'add',
 	async (payload: { url: string, customUrl: string }, _) => {
 		try {
-			const resp = await fetch(`/TinyURL/add?url=${payload.url}&customUrl=${payload.customUrl}`,
+			const resp = await fetch(`/TinyURL/add?url=${encodeURIComponent(payload.url)}&customUrl=${encodeURIComponent(payload.customUrl)}`,
 				{
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					},
 					method: 'PUT'
-				})
+				});
+
+			if (resp.status !== 200) {
+				const error = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value));
+				alert(`Error adding URL: ${error}`);
+				return null;
+			}
 
 			const shortUrl = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value));
 			return {
@@ -53,11 +59,20 @@ export const addThunk = createAsyncThunk(
 export const removeThunk = createAsyncThunk(
 	'remove',
 	async (shortUrl: string, _) => {
+		const c = confirm(`Are you sure you want to remove the URL ${HOST}${shortUrl}?`);
+		if (!c)
+			return null;
 		try {
-			const resp = await fetch(`/TinyURL/remove?shortUrl=${shortUrl}`,
+			const resp = await fetch(`/TinyURL/remove?shortUrl=${encodeURIComponent(shortUrl)}`,
 				{
 					method: 'DELETE'
 				})
+			if (resp.status !== 200) {
+				const error = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value));
+				alert(`Error removing URL: ${error}`);
+				return null;
+			}
+
 			const deleted = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value)) === 'true'
 			if (deleted) {
 				return shortUrl;

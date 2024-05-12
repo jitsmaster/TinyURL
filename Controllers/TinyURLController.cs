@@ -25,8 +25,12 @@ public class TinyURLController : ControllerBase
 	}
 
 	[HttpPut("add")]
-	public async Task<string> Add(string url = "", string customUrl = "")
+	public async Task<string> Add(string url, string customUrl = "")
 	{
+		if (string.IsNullOrWhiteSpace(url)
+			|| !Uri.IsWellFormedUriString(url, UriKind.Absolute))
+			throw new ArgumentException($"Invalid or empty URL {url}");
+
 		//note: custom url is optional, if not provided, shorturl is auto-generated.
 		if (string.IsNullOrEmpty(customUrl))
 		{

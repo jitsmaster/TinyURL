@@ -122,6 +122,7 @@ namespace TinyURL
 			filter = filter.Trim().ToLowerInvariant();
 
 			var filteredList = longUrlById
+				.Reverse() //latest records goes first
 				.Select(entry => new UrlEntry
 				{
 					ShortUrl = entry.Key,

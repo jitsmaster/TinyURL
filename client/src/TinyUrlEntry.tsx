@@ -11,9 +11,9 @@ function TinyUrlEntry({ urlEntry: urlEntry }: { urlEntry: UrlEntry }) {
 
 	return (
 		<li key={urlEntry.shortUrl}>
-			<div className="short-url">Short URL: {`${HOST}${urlEntry.shortUrl}`}</div>
-			<div className="long-url">Original URL: {urlEntry.originalUrl}</div>
-			<div className="visited">Visited: {urlEntry.visited} times</div>
+			<div className="short-url"><strong>Short URL:</strong> {`${HOST}${urlEntry.shortUrl}`}</div>
+			<div className="long-url"><strong>Original URL:</strong> {urlEntry.originalUrl}</div>
+			<div className="visited"><strong>Visited:</strong> {urlEntry.visited} times</div>
 			<button onClick={() => handleDeleteUrl(urlEntry.shortUrl)}>
 				Delete
 			</button>
