@@ -112,12 +112,22 @@ body {
 
 }
 
+ul {
+	padding: 0;
+}
+
 ul li .short-url {
-	flex: 0.3;
+	width: 260px;
+	flex: 0 0 auto;
 }
 
 ul li .long-url {
-	flex: 0.3;
+	flex: 1 1 auto;
+}
+
+ul li .visited {
+	width: 140px;
+	flex: 0 0 auto;
 }
 
 .App .paginator {
@@ -134,7 +144,7 @@ h1 {
 
 button {
 	border-radius: 8px;
-	border: 1px solid lightgray;
+	border: 1px solid gray;
 	padding: 0.6em 1.2em;
 	font-size: 1em;
 	font-weight: 500;

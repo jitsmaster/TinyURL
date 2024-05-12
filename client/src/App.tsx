@@ -14,7 +14,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1>Contact List</h1>
+			<h1>Tiny URL Generator</h1>
 			<AddTinyUrlForm />
 			<hr />
 			<TinyUrlList />

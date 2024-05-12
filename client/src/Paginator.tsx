@@ -5,8 +5,10 @@ import { loadThunk } from "./store/tinyUrlSlice";
 export function Paginator() {
 	const currentStartIndex = useAppSelector(state => state.urlEntries.currentIndex);
 	const totalCount = useAppSelector(state => state.urlEntries.totalCount);
-	const canNext = currentStartIndex < totalCount - 1;
-	const canPrev = currentStartIndex > 0;
+	const curPage = Math.floor(currentStartIndex / PAGE_SIZE) + 1;
+	const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+	const canNext = curPage < totalPages;
+	const canPrev = curPage > 1;
 
 	const dispatch = useAppDispatch();
 
@@ -17,7 +19,7 @@ export function Paginator() {
 	return (
 		<div className="paginator">
 			<button disabled={!canPrev} onClick={() => handlePageChange(-1)}>&lt;</button>
-			<div>{currentStartIndex} of {totalCount}</div>
+			<div>Page {curPage} of {totalPages}</div>
 			<button disabled={!canNext} onClick={() => handlePageChange(1)}>&gt;</button>
 		</div>
 	);

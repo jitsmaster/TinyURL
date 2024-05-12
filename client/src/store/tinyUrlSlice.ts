@@ -1,6 +1,8 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useAppDispatch } from "../hooks/hooks";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UrlEntry } from "../model/models";
+
+
+export const HOST = 'http://localhost:7231/';
 
 export const loadThunk = createAsyncThunk(
 	'load',
@@ -35,9 +37,35 @@ export const addThunk = createAsyncThunk(
 					method: 'PUT'
 				})
 
-			return resp.json();
+			const shortUrl = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value));
+			return {
+				url: payload.url,
+				shortUrl: shortUrl?.substring(1, shortUrl.length - 1)
+			}
 		} catch (error: any) {
 			alert(`Error adding URL: ${error.message}`);
+			return null;
+		}
+	},
+)
+
+
+export const removeThunk = createAsyncThunk(
+	'remove',
+	async (shortUrl: string, _) => {
+		try {
+			const resp = await fetch(`/TinyURL/remove?shortUrl=${shortUrl}`,
+				{
+					method: 'DELETE'
+				})
+			const deleted = await resp.body?.getReader().read().then((data) => new TextDecoder().decode(data.value)) === 'true'
+			if (deleted) {
+				return shortUrl;
+			}
+
+			return null;
+		} catch (error: any) {
+			alert(`Error removing URL: ${error.message}`);
 			return null;
 		}
 	},
@@ -62,33 +90,20 @@ export const tinyUrlSlice = createSlice({
 			if (action.payload) {
 				state.entries.unshift({
 					originalUrl: action.payload.url,
-					shortUrl: action.payload.shortUrl,
+					shortUrl: action.payload.shortUrl as string,
 					visited: 0
 				});
-				alert(`Tiny URL ${action.payload.shortUrl} added for: ${action.payload.url}`);
+				alert(`Tiny URL ${HOST}${action.payload.shortUrl} added for: ${action.payload.url}`);
+			}
+		});
+		builder.addCase(removeThunk.fulfilled, (state, action) => {
+			if (action.payload) {
+				state.entries = state.entries.filter((entry) => entry.shortUrl !== action.payload);
+				alert(`Tiny URL ${HOST}${action.payload} removed`);
 			}
 		});
 	},
-	reducers: {
-		remove: (_, action: PayloadAction<string>) => {
-			//issue server request to delete the url
-			fetch(`/TinyURL/remove?shortUrl=${action.payload}`,
-				{
-					method: 'DELETE'
-				})
-				.then((response) => response.json())
-				.then((data: boolean) => {
-					if (data) {
-						//if removed, trigger reload of list
-						const dispatch = useAppDispatch();
-						dispatch(loadThunk({ startIndex: 0, pageSize: 25, filter: '' }));
-						alert(`Tiny URL ${action.payload} removed`);
-					}
-				})
-				.catch((error) => alert(`Error removing URL: ${error.message}`));
-		}
-	}
+	reducers: {}
 });
 
-export const { remove: removeUrl } = tinyUrlSlice.actions;
 export default tinyUrlSlice.reducer;

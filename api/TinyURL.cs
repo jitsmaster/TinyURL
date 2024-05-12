@@ -11,11 +11,6 @@ namespace TinyURL
 	public class TinyURL : ITinyURL
 	{
 		/// <summary>
-		/// This is just for demo only. The production service should be able to set host address
-		/// </summary>
-		const string HOST = "http://localhost:5056/";
-
-		/// <summary>
 		/// In memory approach, using un unsigned 64 bit integer to for next id
 		/// This allows up to 4,294,967,295 ids to be generated
 		/// </summary>
@@ -78,7 +73,7 @@ namespace TinyURL
 			});
 
 			// Reverse shortURL to complete base conversion  
-			return await Task.FromResult(HOST + shortUrl);
+			return await Task.FromResult(shortUrl);
 		}
 
 		private List<char> generateShortUrlFromId(ulong newId)
