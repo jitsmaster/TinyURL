@@ -1,13 +1,12 @@
 export class UrlEntry {
-	OriginalUrl: string = "";
-	ShortUrl: string = "";
-	Visited: number = 0;
+	originalUrl: string = "";
+	shortUrl: string = "";
+	visited: number = 0;
 }
 
 export class UrlListing {
 	Entries: UrlEntry[] = [];
-	StartIndex: number = 0;
-	NextIndex: number = 0;
+	CurrentIndex: number = 0;
 	TotalCount: number = 0;
 }
 

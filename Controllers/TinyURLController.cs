@@ -25,7 +25,7 @@ public class TinyURLController : ControllerBase
 	}
 
 	[HttpPut("add")]
-	public async Task<string> Add(string url, string customUrl = "")
+	public async Task<string> Add(string url = "", string customUrl = "")
 	{
 		//note: custom url is optional, if not provided, shorturl is auto-generated.
 		if (string.IsNullOrEmpty(customUrl))

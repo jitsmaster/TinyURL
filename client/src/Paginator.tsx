@@ -1,17 +1,17 @@
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { PAGE_SIZE } from "./store/store";
-import { loadUrlListing } from "./store/tinyUrlSlice";
+import { loadThunk } from "./store/tinyUrlSlice";
 
 export function Paginator() {
-	const currentStartIndex = useAppSelector(state => state.urlEntries.CurrentIndex);
-	const totalCount = useAppSelector(state => state.urlEntries.TotalCount);
+	const currentStartIndex = useAppSelector(state => state.urlEntries.currentIndex);
+	const totalCount = useAppSelector(state => state.urlEntries.totalCount);
 	const canNext = currentStartIndex < totalCount - 1;
 	const canPrev = currentStartIndex > 0;
 
 	const dispatch = useAppDispatch();
 
 	const handlePageChange = (offset: number) => {
-		dispatch(loadUrlListing({ startIndex: currentStartIndex + offset * PAGE_SIZE, pageSize: PAGE_SIZE, filter: '' }));
+		dispatch(loadThunk({ startIndex: currentStartIndex + offset * PAGE_SIZE, pageSize: PAGE_SIZE, filter: '' }));
 	};
 
 	return (

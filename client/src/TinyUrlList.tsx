@@ -4,7 +4,7 @@ import { useAppSelector } from "./hooks/hooks.ts";
 import { UrlEntry } from "./model/models.ts";
 
 function TinyUrlList() {
-	const contacts = useAppSelector(state => state.urlEntries.Entries)
+	const contacts = useAppSelector(state => state.urlEntries.entries)
 	return (
 		<div className="tiny-url-list">
 			<div className="filter-container">
@@ -14,7 +14,7 @@ function TinyUrlList() {
 			<Paginator />
 			<ul>
 				{contacts.map((url: UrlEntry) => (
-					<TinyUrlEntry key={url.ShortUrl} urlEntry={url} />
+					<TinyUrlEntry key={url.shortUrl} urlEntry={url} />
 				))}
 			</ul>
 			<Paginator />

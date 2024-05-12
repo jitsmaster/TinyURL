@@ -1,57 +1,75 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useAppDispatch } from "../hooks/hooks";
-import { UrlEntry, UrlListing } from "../model/models";
+import { UrlEntry } from "../model/models";
 
-export const tinyUrlSlice = createSlice({
-	name: 'tinyUrl',
-	initialState: {
-		Entries: [] as UrlEntry[],
-		CurrentIndex: 0,
-		TotalCount: 0
-	},
-	reducers: {
-		load: (state, action: PayloadAction<{ startIndex: number, pageSize: number, filter: string }>) => {
-			//issue server request to get the list of urls
-			fetch(`/TinyURL/list?startIndex=${action.payload.startIndex}&pageSize=${action.payload.pageSize}&filter=${action.payload.filter}`,
+export const loadThunk = createAsyncThunk(
+	'load',
+	async (payload: { startIndex: number, pageSize: number, filter: string }, _) => {
+		try {
+			const resp = await fetch(`/TinyURL/list?startIndex=${payload.startIndex}&pageSize=${payload.pageSize}&filter=${payload.filter}`,
 				{
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					}
-				})
-				.then((response) => response.json())
-				.then((data: UrlListing) => {
-					state.Entries = data.Entries;
-					state.CurrentIndex = data.StartIndex;
-					state.TotalCount = data.TotalCount;
-				})
-				.catch((error) => alert(`Error loading URL list: ${error.toString()}`));
-		},
-		add: (state, action: PayloadAction<{ url: string, customUrl: string }>) => {
-			//issue server request to add the url
-			fetch(`/TinyURL/add`,
+				});
+
+			return resp.json();
+		} catch (error: any) {
+			alert(`Error loading URL listing: ${error.message}`);
+			return null;
+		}
+	},
+)
+
+export const addThunk = createAsyncThunk(
+	'add',
+	async (payload: { url: string, customUrl: string }, _) => {
+		try {
+			const resp = await fetch(`/TinyURL/add?url=${payload.url}&customUrl=${payload.customUrl}`,
 				{
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
 					},
-					method: 'POST',
-					body: JSON.stringify(action.payload)
+					method: 'PUT'
 				})
-				.then((response) => response.json())
-				.then((data: string) => {
-					if (data) {
-						//directly add to the first item, no server reload
-						state.Entries.unshift({
-							OriginalUrl: action.payload.url,
-							ShortUrl: data,
-							Visited: 0
-						});
-						alert(`Tiny URL ${data} added for: ${action.payload.url}`);
-					}
-				})
-				.catch((error) => alert(`Error adding URL: ${error.message}`));
-		},
+
+			return resp.json();
+		} catch (error: any) {
+			alert(`Error adding URL: ${error.message}`);
+			return null;
+		}
+	},
+)
+
+export const tinyUrlSlice = createSlice({
+	name: 'tinyUrl',
+	initialState: {
+		entries: [] as UrlEntry[],
+		currentIndex: 0,
+		totalCount: 0
+	},
+	extraReducers(builder) {
+		builder.addCase(loadThunk.fulfilled, (state, action) => {
+			if (action.payload) {
+				state.entries = action.payload.entries;
+				state.currentIndex = action.payload.currentIndex;
+				state.totalCount = action.payload.totalCount;
+			}
+		});
+		builder.addCase(addThunk.fulfilled, (state, action) => {
+			if (action.payload) {
+				state.entries.unshift({
+					originalUrl: action.payload.url,
+					shortUrl: action.payload.shortUrl,
+					visited: 0
+				});
+				alert(`Tiny URL ${action.payload.shortUrl} added for: ${action.payload.url}`);
+			}
+		});
+	},
+	reducers: {
 		remove: (_, action: PayloadAction<string>) => {
 			//issue server request to delete the url
 			fetch(`/TinyURL/remove?shortUrl=${action.payload}`,
@@ -63,7 +81,7 @@ export const tinyUrlSlice = createSlice({
 					if (data) {
 						//if removed, trigger reload of list
 						const dispatch = useAppDispatch();
-						dispatch(loadUrlListing({ startIndex: 0, pageSize: 25, filter: '' }));
+						dispatch(loadThunk({ startIndex: 0, pageSize: 25, filter: '' }));
 						alert(`Tiny URL ${action.payload} removed`);
 					}
 				})
@@ -72,5 +90,5 @@ export const tinyUrlSlice = createSlice({
 	}
 });
 
-export const { add: addUrl, remove: removeUrl, load: loadUrlListing } = tinyUrlSlice.actions;
+export const { remove: removeUrl } = tinyUrlSlice.actions;
 export default tinyUrlSlice.reducer;

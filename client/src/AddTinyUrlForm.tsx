@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addUrl } from "./store/tinyUrlSlice";
+import { useAppDispatch } from "./hooks/hooks";
+import { addThunk } from "./store/tinyUrlSlice";
 
 function AddTinyUrlForm() {
 	const [url, setName] = useState("");
 	const [customUrl, setCustomUrl] = useState("");
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const handleAddContact = () => {
-		dispatch(addUrl({
-			url: url,
-			customUrl: customUrl
-		}))
+		dispatch(addThunk({ url, customUrl }));
 		setName('')
 		setCustomUrl('')
 	};

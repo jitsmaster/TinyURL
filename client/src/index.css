@@ -51,7 +51,7 @@ body {
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
-	border: 1px solid transparent;
+	border: 1px solid lightgray;
 	border-radius: 8px;
 }
 
@@ -64,6 +64,9 @@ body {
 
 .App .form .form-container {
 	flex: 1 1 auto;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 12px;
 }
 
 .App .input-group {
@@ -96,11 +99,31 @@ body {
 
 .App .tiny-url-list ul {
 	flex: 1 1 auto;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 8px;
+}
+
+.App .tiny-url-list ul li {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	gap: 8px;
+
+}
+
+ul li .short-url {
+	flex: 0.3;
+}
+
+ul li .long-url {
+	flex: 0.3;
 }
 
 .App .paginator {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	gap: 8px;
 }
 
@@ -111,7 +134,7 @@ h1 {
 
 button {
 	border-radius: 8px;
-	border: 1px solid transparent;
+	border: 1px solid lightgray;
 	padding: 0.6em 1.2em;
 	font-size: 1em;
 	font-weight: 500;

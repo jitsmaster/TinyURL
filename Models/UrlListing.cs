@@ -6,7 +6,6 @@ namespace tinyurl.Models
 	{
 		public IEnumerable<UrlEntry> Entries { get; set; } = [];
 		public int TotalCount { get; set; } = 0;
-		public int StartIndex { get; set; } = 0;
-		public int NextIndex { get; set; } = 0;
+		public int CurrentIndex { get; set; } = 0;
 	}
 }

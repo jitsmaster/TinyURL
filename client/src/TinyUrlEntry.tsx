@@ -9,11 +9,11 @@ function TinyUrlEntry({ urlEntry: urlEntry }: { urlEntry: UrlEntry }) {
 		dispatch(removeUrl(id))
 	}
 	return (
-		<li key={urlEntry.ShortUrl}>
-			<div>Short URL: {urlEntry.ShortUrl}</div>
-			<div>Original URL: {urlEntry.OriginalUrl}</div>
-			<div>Visited: {urlEntry.Visited} times</div>
-			<button onClick={() => handleDeleteUrl(urlEntry.ShortUrl)}>
+		<li key={urlEntry.shortUrl}>
+			<div className="short-url">Short URL: {urlEntry.shortUrl}</div>
+			<div className="long-url">Original URL: {urlEntry.originalUrl}</div>
+			<div>Visited: {urlEntry.visited} times</div>
+			<button onClick={() => handleDeleteUrl(urlEntry.shortUrl)}>
 				Delete
 			</button>
 		</li>

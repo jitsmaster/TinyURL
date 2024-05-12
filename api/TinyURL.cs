@@ -146,18 +146,11 @@ namespace TinyURL
 				? filteredList
 				: filteredList.Skip(startIndex).Take(pageSize);
 
-			var nextIndex = startIndex + pageSize;
-			if (nextIndex >= count)
-			{
-				nextIndex = -1;
-			}
-
 			return await Task.FromResult(new UrlListing
 			{
 				Entries = pageList,
 				TotalCount = count,
-				StartIndex = startIndex,
-				NextIndex = startIndex + pageSize
+				CurrentIndex = startIndex
 			});
 		}
 
