@@ -35,7 +35,7 @@ function AddTinyUrlForm() {
 					/>
 				</div>
 			</div>
-			<button onClick={handleAddContact} > Add Tiny URL </button>
+			<button onClick={handleAddContact} disabled={!url} > Add Tiny URL </button>
 		</div>
 	);
 }
