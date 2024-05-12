@@ -13,7 +13,7 @@ namespace TinyURL
 		/// <summary>
 		/// This is just for demo only. The production service should be able to set host address
 		/// </summary>
-		const string HOST = "http://localhost:5056";
+		const string HOST = "http://localhost:5056/";
 
 		/// <summary>
 		/// In memory approach, using un unsigned 64 bit integer to for next id
@@ -26,7 +26,7 @@ namespace TinyURL
 
 		static readonly object loc = new object();
 
-		private ConcurrentDictionary<uint, UrlEntryStorage> longUrlById = new ConcurrentDictionary<uint, UrlEntryStorage>();
+		private ConcurrentDictionary<string, UrlEntryStorage> longUrlById = new ConcurrentDictionary<string, UrlEntryStorage>();
 
 		public TinyURL()
 		{
@@ -34,10 +34,9 @@ namespace TinyURL
 
 		public async Task<string> AddCustomURL(string shortUrl, string longURL)
 		{
-			var id = getIdFromShortUrl(shortUrl.ToList());
-			if (!longUrlById.ContainsKey(id))
+			if (!longUrlById.ContainsKey(shortUrl))
 			{
-				longUrlById.TryAdd(id, new UrlEntryStorage
+				longUrlById.TryAdd(shortUrl, new UrlEntryStorage
 				{
 					OriginalUrl = longURL
 				});
@@ -52,11 +51,10 @@ namespace TinyURL
 
 		public async Task<bool> DeleteURL(string shortUrl)
 		{
-			var id = getIdFromShortUrl(shortUrl.ToList());
-			if (id == 0)
-				return await Task.FromResult(false);
+			if (string.IsNullOrWhiteSpace(shortUrl))
+				return false;
 
-			var removed = longUrlById.Remove(id, out var longUrl);
+			var removed = longUrlById.Remove(shortUrl, out var longUrl);
 
 			return await Task.FromResult(removed);
 		}
@@ -71,8 +69,16 @@ namespace TinyURL
 			var newId = _id;
 			List<char> shortUrlChars = generateShortUrlFromId(newId);
 
+			var shortUrl = new string(shortUrlChars.ToArray());
+
+			//add to map
+			longUrlById.TryAdd(shortUrl, new UrlEntryStorage
+			{
+				OriginalUrl = longURL
+			});
+
 			// Reverse shortURL to complete base conversion  
-			return await Task.FromResult(new string(shortUrlChars.ToArray()));
+			return await Task.FromResult(HOST + shortUrl);
 		}
 
 		private List<char> generateShortUrlFromId(ulong newId)
@@ -87,24 +93,6 @@ namespace TinyURL
 
 			reverse(shortUrlChars);
 			return shortUrlChars;
-		}
-
-		private uint getIdFromShortUrl(List<char> shortUrl)
-		{
-			uint id = 0;
-			for (int i = 0; i < shortUrl.Count; i++)
-			{
-				if ('a' <= shortUrl[i]
-					&& shortUrl[i] <= 'z')
-					id = id * 62 + shortUrl[i] - 'a';
-				if ('A' <= shortUrl[i]
-					&& shortUrl[i] <= 'Z')
-					id = id * 62 + shortUrl[i] - 'A' + 26;
-				if ('0' <= shortUrl[i]
-					&& shortUrl[i] <= '9')
-					id = id * 62 + shortUrl[i] - '0' + 52;
-			}
-			return id;
 		}
 
 		private void reverse(List<char> shortUrlChars)
@@ -141,7 +129,7 @@ namespace TinyURL
 			var filteredList = longUrlById
 				.Select(entry => new UrlEntry
 				{
-					ShortUrl = new string(generateShortUrlFromId(entry.Key).ToArray()),
+					ShortUrl = entry.Key,
 					OriginalUrl = entry.Value.OriginalUrl,
 					Visited = entry.Value.Visited
 				})
@@ -175,13 +163,12 @@ namespace TinyURL
 
 		public async Task<string> RetrieveAndVisit(string shortUrl)
 		{
-			var id = getIdFromShortUrl(shortUrl.ToList());
-			if (!longUrlById.ContainsKey(id))
+			if (!longUrlById.ContainsKey(shortUrl))
 			{
 				return string.Empty;
 			}
 
-			var entry = longUrlById[id];
+			var entry = longUrlById[shortUrl];
 			//update the visited count
 			entry.Visited++;
 
