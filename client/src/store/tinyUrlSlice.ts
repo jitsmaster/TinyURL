@@ -6,7 +6,7 @@ export const tinyUrlSlice = createSlice({
 	name: 'tinyUrl',
 	initialState: {
 		Entries: [] as UrlEntry[],
-		NextIndex: 0,
+		CurrentIndex: 0,
 		TotalCount: 0
 	},
 	reducers: {
@@ -21,11 +21,11 @@ export const tinyUrlSlice = createSlice({
 				})
 				.then((response) => response.json())
 				.then((data: UrlListing) => {
-					state.Entries = data.Entries
-					state.NextIndex = data.NextIndex
-					state.TotalCount = data.TotalCount
+					state.Entries = data.Entries;
+					state.CurrentIndex = data.StartIndex;
+					state.TotalCount = data.TotalCount;
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => alert(`Error loading URL list: ${error.toString()}`));
 		},
 		add: (state, action: PayloadAction<{ url: string, customUrl: string }>) => {
 			//issue server request to add the url
@@ -47,9 +47,10 @@ export const tinyUrlSlice = createSlice({
 							ShortUrl: data,
 							Visited: 0
 						});
+						alert(`Tiny URL ${data} added for: ${action.payload.url}`);
 					}
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => alert(`Error adding URL: ${error.message}`));
 		},
 		remove: (_, action: PayloadAction<string>) => {
 			//issue server request to delete the url
@@ -63,9 +64,10 @@ export const tinyUrlSlice = createSlice({
 						//if removed, trigger reload of list
 						const dispatch = useAppDispatch();
 						dispatch(loadUrlListing({ startIndex: 0, pageSize: 25, filter: '' }));
+						alert(`Tiny URL ${action.payload} removed`);
 					}
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => alert(`Error removing URL: ${error.message}`));
 		}
 	}
 });

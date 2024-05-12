@@ -3,7 +3,7 @@ import contactReducer from './tinyUrlSlice';
 
 export const store = configureStore({
 	reducer: {
-		contacts: contactReducer
+		urlEntries: contactReducer
 	}
 });
 
@@ -17,4 +17,7 @@ export function* generateId() {
 		yield ++id;
 	}
 }
+
+export const PAGE_SIZE = 25;
+
 

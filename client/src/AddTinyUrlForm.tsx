@@ -16,24 +16,31 @@ function AddTinyUrlForm() {
 		setCustomUrl('')
 	};
 
-	return (<div>
-		<label>URL:</label>
-		<input
-			required
-			type="text"
-			value={url}
-			onChange={(e) => setName(e.target.value)
-			}
-		/>
-		<br />
-		<label>Custom URL (path only, optional):</label>
-		<input
-			type="text"
-			value={customUrl}
-			onChange={(e) => setCustomUrl(e.target.value)}
-		/>
-		<button onClick={handleAddContact} > Add Contact </button>
-	</div>);
+	return (
+		<div className="form">
+			<div className="form-container">
+				<div className="input-group">
+					<label>URL:</label>
+					<input
+						required
+						type="text"
+						value={url}
+						onChange={(e) => setName(e.target.value)
+						}
+					/>
+				</div>
+				<div className="input-group">
+					<label>Custom URL (path only, optional):</label>
+					<input
+						type="text"
+						value={customUrl}
+						onChange={(e) => setCustomUrl(e.target.value)}
+					/>
+				</div>
+			</div>
+			<button onClick={handleAddContact} > Add Tiny URL </button>
+		</div>
+	);
 }
 
 export default AddTinyUrlForm;
