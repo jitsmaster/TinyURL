@@ -12,7 +12,7 @@ To use the TinyURL service, follow these steps:
 2. Install the required dependencies by running `npm install` in the project "client" directory.
 3. Build client side React app by "cd" into "client" directory, and run "npm run build".
 4. Go back to project folder and execute "dotnet run"
-5. Visit `http://localhost:7231` on your browser;
+5. Visit [http://localhost:7231](http://localhost:7231) on your browser;
 
 ## Client UI
 
@@ -29,7 +29,7 @@ TinyURL provided the following REST endpoints:
 /TinyURL/retrieve
 /TinyURL/list
 
-To test the REST API, please use the swagger UI: `http://localhost:7231/swagger/index.html`.
+To test the REST API, please use the swagger UI: [http://localhost:7231/swagger/index.html](http://localhost:7231/swagger/index.html)
 
 Note: Using "retrieve" endpoint to simulate the short url is "clicked" (visisted).
 
@@ -46,6 +46,6 @@ Also, using Thunk to support async-based state manipulations, with extra reducer
 ## Cut-backs that should be in production code
 1. Keyboard accessibility feature on the UI.
 2. Client-side validations.
-3. Using alert to display messages instead of snackbar.
+3. Snackbar messages instead of alert.
 4. CSS fine-tuning.
 5. Persistent storage.
