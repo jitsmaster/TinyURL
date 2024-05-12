@@ -7,15 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddRazorPages()
-	.AddRazorPagesOptions(options =>
-	{
-		options.Conventions.AddPageRoute("/index", "{*url}");
-		options.Conventions.AllowAnonymousToFolder("/swagger");
-		options.Conventions.AllowAnonymousToFolder("/client");
-		options.Conventions.AllowAnonymousToFolder("/scripts");
 
-	});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,13 +28,18 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapRazorPages();
 
+//app.UseFileServer();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
 	FileProvider = new PhysicalFileProvider(
 		Path.Combine(builder.Environment.ContentRootPath, "client")),
 	RequestPath = "/client"
 });
+
+
 
 app.Run();
